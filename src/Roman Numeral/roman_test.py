@@ -41,7 +41,7 @@ class RomanNumeralsConvertToRomanTests(unittest.TestCase):
         result = get_roman_numeral(4)
         self.assertEqual('IV', result)
 
-    def test_four(self):
+    def test_nine(self):
         result = get_roman_numeral(9)
         self.assertEqual('IX', result)
 
@@ -186,3 +186,51 @@ class RomanNumeralsConvertToNumberFromRomanTests(unittest.TestCase):
     def test_convert_IV_to_4(self):
         result = get_number_from_roman_numeral('IV')
         self.assertEqual(4, result)
+
+class RomanNumeralsExtraTests(unittest.TestCase):
+    # Numeral romano para numero
+    def test_convert_XII_to_12(self):
+        result = get_number_from_roman_numeral('XII')
+        self.assertEqual(12, result)
+
+    def test_convert_XL_to_40(self):
+        result = get_number_from_roman_numeral('XL')
+        self.assertEqual(40, result)
+
+    def test_convert_MCMXCIV_to_1994(self):
+        result = get_number_from_roman_numeral('MCMXCIV')
+        self.assertEqual(1994, result)
+
+    def test_convert_lowercase_xiv_to_14(self):
+        result = get_number_from_roman_numeral('xiv')
+        self.assertEqual(14, result)
+
+    def test_convert_invalid_letters_raises(self):
+        with self.assertRaises(ValueError):
+            result = get_number_from_roman_numeral('ABC')
+
+    def test_convert_empty_raises(self):
+        with self.assertRaises(ValueError):
+            result = get_number_from_roman_numeral('')
+
+    def test_convert_none_raises(self):
+        with self.assertRaises(ValueError):
+            result = get_number_from_roman_numeral(None)
+
+    # Numero para numeral romano
+    def test_float_raises(self):
+        with self.assertRaises(TypeError):
+            result = get_roman_numeral(3.5)
+
+    def test_bool_raises(self):
+        with self.assertRaises(TypeError):
+            result = get_roman_numeral(True)
+
+    def test_three_thousand_nine_hundred_ninety_nine(self):
+        result = get_roman_numeral(3999)
+        self.assertEqual('MMMCMXCIX', result)
+
+    def test_round_trip_1_to_3999(self):
+        for n in range(1, 4000):
+            result = get_number_from_roman_numeral(get_roman_numeral(n))
+            self.assertEqual(n, result)
